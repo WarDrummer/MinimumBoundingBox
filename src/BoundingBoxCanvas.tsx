@@ -48,7 +48,7 @@ export function BoundingBoxCanvas({
 
       setArea(GetPolygonArea(GetBoundingBox(pts)));
     }
-  }, [rotation]);
+  }, [rotation, points]);
 
   function clearCanvas(ctx: CanvasRenderingContext2D) {
     ctx.clearRect(0, 0, width, height);

@@ -12,36 +12,40 @@ type AllBoundingBoxesProps = {
   points: Point[];
 };
 
-export function AllBoundingBoxes(props: AllBoundingBoxesProps) {
+export function AllBoundingBoxes({
+  width,
+  height,
+  points,
+}: AllBoundingBoxesProps) {
   const [angles, setAngles] = useState<number[]>([0]);
   const [angleIndex, setAngleIndex] = useState<number>(0);
-  const [minBoxAngle] = useState<number>(
-    GetAngleForMinimumBoundingBox(props.points)
-  );
+  const [minBoxAngle, setMinBoxAngle] = useState<number>(0);
 
   useEffect(() => {
+    setMinBoxAngle(GetAngleForMinimumBoundingBox(points));
+
     let angles = [];
-    for (let angle of GetAnglesForAllSegments(props.points)) {
+    for (let angle of GetAnglesForAllSegments(points)) {
       angles.push(angle);
     }
     setAngles(angles.sort((n1, n2) => n1 - n2));
-  }, [props.points]);
+  }, [points]);
 
   return (
     <>
       <BoundingBoxCanvas
-        width={props.width}
-        height={props.height}
+        width={width}
+        height={height}
         rotation={minBoxAngle}
-        points={props.points}
+        points={points}
         boundingBoxColor="green"
       />
 
       <BoundingBoxCanvas
-        width={props.width}
-        height={props.height}
+        width={width}
+        height={height}
         rotation={angles[angleIndex]}
-        points={props.points}
+        points={points}
       />
       <center>
         <button
